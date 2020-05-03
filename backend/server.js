@@ -19,9 +19,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 const auth = require('./auth');
 auth.setup(app);
 
-// http://localhost:3002/index.html
-app.use(express.static(path.join(__dirname, 'frontend'))).set('views',
-__dirname, 'views').set('view engine', 'ejs').get('/', (req, res) => res.render('pages/index'));
+// http://localhost:3002/api/health-check
 
 app.use('/api', require('./routes'));
 

@@ -5,7 +5,7 @@ const expressSession = require('express-session');
 
 module.exports = {
     setup: (app) => {
-        app.use(expressSession({secret: 'ezaprfpeldaalkalmazastitkoskodja'}));
+        app.use(expressSession({secret: 'thisshallbemysessionsecret!!'}));
 
         passport.serializeUser((user, done) => !user ? done('Nincsen user!') : done(null, user));
         passport.deserializeUser((user, done) => done(null, user));
