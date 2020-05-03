@@ -1,0 +1,13 @@
+10. Étteremmester
+
+a) NodeJS szerver, amely felhasználókat, illetve éttermeket tárol az adatbázisban.
+A rendszer különböztessen meg vendég és pincér felhasználókat.
+Az éttermek rendelkezzenek egy tömbbel, mely JavaScript objektumokként tárolja az asztalokat.
+Alapból minden asztal legyen üres, de legyen lehetőség az asztalok foglalására,
+    illetve az étterem étlapjáról ételek, italok hozzárendelésére is.
+Az étlap szintén az étterem részeként legyen tárolva az adatbázisban, tartalmazza a választható opciók mellett azok árát is.
+
+b) az Angular kliensben a felhasználók csak az éttermek között tudnak válogatni, és asztalt foglalni x főre.
+A pincér amellett, hogy látja az összes foglalást, tudja azokat törölni is,
+    illetve tudjon az adott asztalhoz rendeléseket adni, amelyekből folyamatosan összegződik,
+    az adott asztalon mennyit kell majd fizetni távozáskor.
