@@ -7,12 +7,16 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
+import { RestaurantListComponent } from './restaurants/restaurant-list/restaurant-list.component';
+import { RestaurantDetailComponent } from './restaurants/restaurant-detail/restaurant-detail.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    HomeComponent
+    HomeComponent,
+    RestaurantListComponent,
+    RestaurantDetailComponent
   ],
   imports: [
     BrowserModule,

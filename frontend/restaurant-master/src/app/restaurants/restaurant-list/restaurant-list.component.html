@@ -1,0 +1,20 @@
+<div class="container">
+  <table>
+    <thead>
+      <tr>
+        <th>Név</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container
+        *ngFor="let restaurant of restaurants;"
+      >
+        <tr>
+          <td>{{ restaurant.name }}</td>
+          <td><button (click)="loadRestaurant(restaurant._id)">Megtekint</button></td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+</div>

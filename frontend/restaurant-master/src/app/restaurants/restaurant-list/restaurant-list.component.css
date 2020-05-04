@@ -1,0 +1,23 @@
+.container {
+    margin-top: 10px;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+tr {
+    border-bottom: 1px solid black;
+}​
+
+tr:last-child { 
+    border-bottom: none; 
+}
+
+th {
+    text-align: left;
+}
+
+th, td {
+    padding: 10px;
+}

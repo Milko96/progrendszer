@@ -1,0 +1,36 @@
+.login {
+    padding: 5px;
+    margin: auto;
+    width: 30%;
+    background-color: teal;
+    color: #f2f2f2;
+}
+
+.loginForm {
+    margin: auto;
+    width: 100%;
+}
+
+h2 {
+    text-align: center;
+}
+
+input, label {
+    display: block;
+    margin: auto;
+    width: 60%;
+}
+
+button {
+    display: block;
+    text-align: center;
+    margin: auto;
+}
+
+.form-group {
+    margin-bottom: 10px;
+}
+
+.invalid-feedback {
+    color: red;
+}

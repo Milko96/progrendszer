@@ -21,7 +21,10 @@ auth.setup(app);
 
 // http://localhost:3002/api/health-check
 
-app.use('/api', require('./routes'));
+const apiBaseUrl = '/api';
+
+app.use(apiBaseUrl, require('./controllers/auth.controller'));
+app.use(apiBaseUrl + '/restaurants', require('./controllers/restaurants.controller'));
 
 app.listen(3002, () => {
     console.log('a szerver elindult');
