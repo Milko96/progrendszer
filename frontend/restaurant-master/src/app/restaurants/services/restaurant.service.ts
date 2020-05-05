@@ -5,6 +5,7 @@ import { environment } from '../../../environments/environment';
 
 import { IRestaurantList } from '../models/restaurant-list.interface';
 import { IRestaurantGet } from '../models/restaurant-get.interface';
+import { IReservationPost } from '../models/reservation-post.interface';
 
 @Injectable()
 export class RestaurantService {
@@ -18,7 +19,7 @@ export class RestaurantService {
     return this._http.get<IRestaurantGet>(`${environment.apiUrl}/restaurants/${id}`);
   }
 
-  public reserveTable(id: string, tableIdentifier: string): any {
-    return this._http.post(`${environment.apiUrl}/restaurants/${id}/${tableIdentifier}`, {});
+  public reserveTable(restaurantId: string, dto: IReservationPost): any {
+    return this._http.post(`${environment.apiUrl}/restaurants/${restaurantId}/reservation`, dto);
   }
 }

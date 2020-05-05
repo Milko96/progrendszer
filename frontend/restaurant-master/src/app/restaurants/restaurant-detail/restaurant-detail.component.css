@@ -8,14 +8,14 @@
     width: 49%;
 }
 
-.menu-bar, .table-bar {
+.menu-bar, .reservation-bar {
     width: 100%;
     float: left;
     overflow: hidden;
     margin-bottom: 10px;
 }
 
-.menu-tab, .table-tab {
+.menu-tab {
     float: left;
     color: black;
     text-align: center;
@@ -48,15 +48,39 @@ tr:last-child {
     border-bottom: none; 
 }
 
-.tables {
+.reservation {
     float: right;
     border: 1px solid black;
     width: 49%;
 }
 
-.table-item {
+.reservation-tab {
     float: left;
-    width: 30%;
-    border: 1px solid black;
-    margin: 0px 10px 10px 10px;
+    color: black;
+    text-align: center;
+    margin: 4px 4px 0px 4px;
+    padding: 7px 8px;
+    text-decoration: none;
+    font-size: 17px;
+    border-bottom: 2px red solid;
+}
+
+input, label {
+    display: block;
+    margin: auto;
+    width: 60%;
+}
+
+button {
+    display: block;
+    text-align: center;
+    margin: auto;
+}
+
+.form-group {
+    margin-bottom: 10px;
+}
+
+.invalid-feedback {
+    color: red;
 }
