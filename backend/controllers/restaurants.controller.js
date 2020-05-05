@@ -22,4 +22,16 @@ router.route('/:id').get(async (req, res) => {
     });
 });
 
+router.route('/:id/reservation').get(async (req, res) => {
+    /*if(!req.isAuthenticated()){
+        return res.status(403).send('Ehhez be kell jelentkeznie');
+    }*/
+    const restaurant = await restaurantModel.findById(req.params.id, (err, restaurant) => {
+        if(err){
+            return res.status(404).send('Az étterrem nem található');
+        }
+        return restaurant;
+    });
+});
+
 module.exports = router;
