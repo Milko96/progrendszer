@@ -1,17 +1,17 @@
 export interface IRestaurantGet {
     _id: string;
     name: string;
-    menu: IRestaurantMenuGet[];
+    menu: IRestaurantMenuGet;
     tables: IRestaurantTableGet[];
 }
 
 export interface IRestaurantMenuGet {
     _id: string;
-    foods: IRestaurantMenuFoodGet[];
-    drinks: IRestaurantMenuFoodGet[];
+    foods: IRestaurantMenuItemGet[];
+    drinks: IRestaurantMenuItemGet[];
 }
 
-export interface IRestaurantMenuFoodGet {
+export interface IRestaurantMenuItemGet {
     _id: string;
     name: string;
     price: number;

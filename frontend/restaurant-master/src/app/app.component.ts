@@ -12,17 +12,11 @@ import { User } from './interfaces/user.interface';
 export class AppComponent {
   currentUser: User;
 
-  public activeTab: string = 'home';
-
   constructor(
     private router: Router,
     private authService: AuthService
   ){
     this.authService.currentUser.subscribe(x => this.currentUser = x);
-  }
-
-  changeActiveTab(activeTab: string){
-    this.activeTab = activeTab;
   }
 
   logout() {

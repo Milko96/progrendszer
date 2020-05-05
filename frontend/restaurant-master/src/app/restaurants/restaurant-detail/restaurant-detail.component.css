@@ -1,0 +1,62 @@
+.container {
+    margin-top: 10px;
+}
+
+.menu {
+    float: left;
+    border: 1px solid black;
+    width: 49%;
+}
+
+.menu-bar, .table-bar {
+    width: 100%;
+    float: left;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.menu-tab, .table-tab {
+    float: left;
+    color: black;
+    text-align: center;
+    margin: 4px 4px 0px 4px;
+    padding: 7px 8px;
+    text-decoration: none;
+    font-size: 17px;
+    cursor: pointer;
+}
+
+.active {
+    border-bottom: 2px red solid;
+}
+
+table {
+    width: 97%;
+    margin: auto;
+    border-collapse: collapse;
+}
+
+th {
+    text-align: left;
+}
+
+tr {
+    border-bottom: 1px solid black;
+}​
+
+tr:last-child { 
+    border-bottom: none; 
+}
+
+.tables {
+    float: right;
+    border: 1px solid black;
+    width: 49%;
+}
+
+.table-item {
+    float: left;
+    width: 30%;
+    border: 1px solid black;
+    margin: 0px 10px 10px 10px;
+}

@@ -1,18 +1,6 @@
 <div class="nav-bar" *ngIf="currentUser">
-    <a
-        [ngClass]="activeTab === 'home' ? 'active' : ''"
-        (click)="changeActiveTab('home')"
-        class="nav-item" routerLink="/"
-    >
-        Kezdőlap
-    </a>
-    <a
-        [ngClass]="activeTab === 'restaurants' ? 'active' : ''"
-        (click)="changeActiveTab('restaurants')"
-        class="nav-item" routerLink="/restaurants" *ngIf="currentUser.role === 'guest'"
-    >
-        Éttermek
-    </a>
+    <a class="nav-item" routerLink="/home" routerLinkActive="active">Kezdőlap</a>
+    <a class="nav-item" routerLink="/restaurants" routerLinkActive="active" *ngIf="currentUser.role === 'guest'" >Éttermek</a>
     <a class="nav-item logout" (click)="logout()">Kijelentkezés</a>
 </div>
 

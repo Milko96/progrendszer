@@ -1,10 +1,10 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { untilDestroyed } from 'ngx-take-until-destroy';
 import { catchError } from 'rxjs/operators';
 import { RestaurantService } from '../services/restaurant.service';
-import { IRestaurantGet } from '../models/restaurant-get.interface';
 import { of } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
+import { IRestaurantGet, IRestaurantMenuItemGet } from '../models/restaurant-get.interface';
 
 @Component({
   selector: 'app-restaurant-detail',
@@ -14,8 +14,12 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class RestaurantDetailComponent implements OnInit, OnDestroy {
   restaurantId: string;
-
+  
+  public activeTab: string = 'foods';
+  
   restaurant: IRestaurantGet;
+
+  menuDataSource: IRestaurantMenuItemGet[];
 
   error: any;
 
@@ -27,17 +31,28 @@ export class RestaurantDetailComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.restaurantId = this.route.snapshot.paramMap.get('id');
 
-    this._restaurantService.getRestaurantById(this.restaurantId).pipe(
-      untilDestroyed(this),
-      catchError(err => {
-        this.error = err;
-        return of({} as IRestaurantGet);
-      })
-    )
-    .subscribe(restaurant => {
-      this.restaurant = restaurant;
-    });
+    this._restaurantService.getRestaurantById(this.restaurantId)
+      .pipe(
+        untilDestroyed(this),
+        catchError(err => {
+          this.error = err;
+          return of(null);
+        })
+      )
+      .subscribe(restaurant => {
+        this.restaurant = restaurant;
+        this.menuDataSource = this.activeTab === 'foods' ? this.restaurant.menu.foods : this.restaurant.menu.drinks;
+      });
   }
 
   ngOnDestroy(): void {}
+
+  changeActiveTab(activeTab: string){
+    this.activeTab = activeTab;
+    this.menuDataSource = this.activeTab === 'foods' ? this.restaurant.menu.foods : this.restaurant.menu.drinks;
+  }
+
+  showAllTables(){
+    
+  }
 }

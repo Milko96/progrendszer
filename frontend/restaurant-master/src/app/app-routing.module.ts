@@ -8,7 +8,8 @@ import { RestaurantListComponent } from './restaurants/restaurant-list/restauran
 import { RestaurantDetailComponent } from './restaurants/restaurant-detail/restaurant-detail.component';
 
 const routes: Routes = [
-    { path: '', component: HomeComponent, canActivate: [AuthGuard] },
+  { path: '', redirectTo: 'home', pathMatch: 'full', canActivate: [AuthGuard] },
+  { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
     { path: 'login', component: LoginComponent },
     { path: 'restaurants', component: RestaurantListComponent, canActivate: [AuthGuard] },
     { path: 'restaurants/:id', component: RestaurantDetailComponent, canActivate: [AuthGuard] },

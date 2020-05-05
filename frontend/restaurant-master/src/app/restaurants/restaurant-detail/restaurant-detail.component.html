@@ -1,1 +1,51 @@
-<p>restaurant-detail works!</p>
+<div *ngIf="restaurant" class="container">
+  <p>{{ restaurant.name }}</p>
+  <div class="menu">
+    <div class="menu-bar">
+      <div
+        class="menu-tab"
+        [ngClass]="activeTab === 'foods' ? 'active' : ''"
+        (click)="changeActiveTab('foods')"
+      >
+        Étlap
+      </div>
+      <div
+        class="menu-tab"
+        [ngClass]="activeTab === 'drinks' ? 'active' : ''"
+        (click)="changeActiveTab('drinks')"
+      >
+        Itallap
+      </div>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Név</th>
+          <th>Ár</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container
+          *ngFor="let menuItem of menuDataSource;"
+        >
+          <tr>
+            <td>{{ menuItem.name }}</td>
+            <td>{{ menuItem.price }}</td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </div>
+  <div class="tables">
+    <div class="table-bar">
+      <div class="table-tab active" (click)="showAllTables()">Asztalok</div>
+    </div>
+    <div class="table-list">
+      <ng-container *ngFor="let table of restaurant.tables;">
+        <div class="table-item">
+          <span>{{ table.identifier }}</span>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>

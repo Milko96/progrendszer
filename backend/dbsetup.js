@@ -16,6 +16,7 @@ module.exports = {
         
         require('./models/users');
         require('./models/restaurants');
+        require('./models/reservations');
     },
     populate: async () => {
         const userModel = mongoose.model('user');
@@ -48,17 +49,11 @@ module.exports = {
                 ]
             },
             tables: [
-                {
-                    identifier: 'K1'
-                },
-                {
-                    identifier: 'K2'
-                },
-                {
-                    identifier: 'K3'
-                }
+                {identifier: 'K1', seatingCapacity: 4},
+                {identifier: 'K2', seatingCapacity: 6},
+                {identifier: 'K3', seatingCapacity: 8}
             ]});
-        kiskakas.save();
+        await kiskakas.save();
         const kapca = restaurantModel({name: 'Kapca Kávézó és Bisztró',
         menu: {
             foods: [
@@ -78,25 +73,33 @@ module.exports = {
             ]
         },
         tables: [
-            {
-                identifier: '1/2'
-            },
-            {
-                identifier: '2/2'
-            },
-            {
-                identifier: '1/4'
-            },
-            {
-                identifier: '2/4'
-            },
-            {
-                identifier: '3/4'
-            },
-            {
-                identifier: '4/4'
-            }
+            {identifier: '1/2', seatingCapacity: 2},
+            {identifier: '2/2', seatingCapacity: 2},
+            {identifier: '1/4', seatingCapacity: 4},
+            {identifier: '2/4', seatingCapacity: 4},
+            {identifier: '3/4', seatingCapacity: 4},
+            {identifier: '4/4', seatingCapacity: 4}
         ]});
-        kapca.save();
+        await kapca.save();
+
+        const reservationModel = mongoose.model('reservation');
+
+        const savedGuest = await userModel.findOne({username: guest.username}, (err, user) => user);
+        const savedKiskakas = await restaurantModel.findOne({name: kiskakas.name}, (err, kiskakas) => kiskakas);
+
+        const reservationInKiskakas = reservationModel(
+            {requiredSeats: 4,
+            reservedFor: savedGuest._id,
+            tables: [savedKiskakas.tables.find(table => table.identifier === 'K1')],
+            orders: {
+                foods: [
+                    savedKiskakas.menu.foods.find(food => food.name === 'Csárda Gulyás')._id,
+                    savedKiskakas.menu.foods.find(food => food.name === 'Borjúláb rántva')._id
+                ],
+                drinks: [savedKiskakas.menu.drinks.find(drink => drink.name === 'Cappuccino')._id],
+                totalPrice: 3950
+            }
+        });
+        reservationInKiskakas.save();
     }
 };

@@ -7,9 +7,7 @@
       </tr>
     </thead>
     <tbody>
-      <ng-container
-        *ngFor="let restaurant of restaurants;"
-      >
+      <ng-container *ngFor="let restaurant of restaurants;">
         <tr>
           <td>{{ restaurant.name }}</td>
           <td><button (click)="loadRestaurant(restaurant._id)">Megtekint</button></td>
