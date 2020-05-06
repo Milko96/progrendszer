@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 
 const restaurantSchema = new mongoose.Schema({
     name: {type: String, unique: true, required: true},
+    openingHour: {type: Number, required: true},
+    closingHour: {type: Number, required: true},
     menu: {
         foods: [{
             name: {type: String, required: true},
@@ -16,19 +18,22 @@ const restaurantSchema = new mongoose.Schema({
         identifier: {type: String, unique: true, required: true},
         seats: {type: Number, required: true},
         reservation: {
-            reservedBy: {type: mongoose.Schema.Types.ObjectId, ref: 'user'},
-            reservedSeats: {type: Number, required: true},
-            datetime: {type: Date, required: true},
-            orders: {
-                foods: [{
-                    food: {type: mongoose.Schema.Types.ObjectId, ref: 'restaurant.menu.foods'},
-                    quantity: {type: Number, required: true}
-                }],
-                drinks: [{
-                    drink: {type: mongoose.Schema.Types.ObjectId, ref: 'restaurant.menu.drinks'},
-                    quantity: {type: Number, required: true}
-                }]
-            }
+            type: {
+                reservedBy: {type: mongoose.Schema.Types.ObjectId, ref: 'user'},
+                reservedSeats: {type: Number, required: false},
+                datetime: {type: Date, required: false},
+                orders: {
+                    foods: [{
+                        food: {type: mongoose.Schema.Types.ObjectId, ref: 'restaurant.menu.foods'},
+                        quantity: {type: Number, required: false}
+                    }],
+                    drinks: [{
+                        drink: {type: mongoose.Schema.Types.ObjectId, ref: 'restaurant.menu.drinks'},
+                        quantity: {type: Number, required: false}
+                    }]
+                }
+            },
+            required: false
         }
     }]
 }, {collection: 'restaurants'});

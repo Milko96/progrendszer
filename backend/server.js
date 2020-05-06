@@ -1,7 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
-const path = require('path');
 const cors = require('cors');
 
 const dbsetup = require('./dbsetup');
@@ -10,7 +9,12 @@ dbsetup.populate();
 
 const app = express();
 
-app.use(cors());
+var corsOptions = {
+    origin: 'http://localhost:4200',
+    optionsSuccessStatus: 200,
+    credentials: true
+  }
+app.use(cors(corsOptions));
 
 app.use(cookieParser());
 app.use(bodyParser.json());

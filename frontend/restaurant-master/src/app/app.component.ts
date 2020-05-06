@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { AuthService } from './auth/auth.service';
-import { User } from './interfaces/user.interface';
+import { IUser } from './interfaces/user.interface';
 
 @Component({
   selector: 'app-root',
@@ -10,7 +10,7 @@ import { User } from './interfaces/user.interface';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  currentUser: User;
+  currentUser: IUser;
 
   constructor(
     private router: Router,

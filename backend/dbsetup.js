@@ -29,7 +29,10 @@ module.exports = {
         waiter.save();
 
         const restaurantModel = mongoose.model('restaurant');
-        const kapca = restaurantModel({name: 'Kapca Kávézó és Bisztró',
+        const kapca = restaurantModel({
+            name: 'Kapca Kávézó és Bisztró',
+            openingHour: 10,
+            closingHour: 23,
             menu: {
                 foods: [
                     {name: 'Bivalygulyás', price: 1090},
@@ -59,7 +62,10 @@ module.exports = {
         await kapca.save();
 
         const savedGuest = await userModel.findOne({username: guest.username}, (err, user) => user);
-        const kiskakas = restaurantModel({name: 'Kiskakas Csárda',
+        const kiskakas = restaurantModel({
+            name: 'Kiskakas Csárda',
+            openingHour: 9,
+            closingHour: 20,
             menu: {
                 foods: [
                     {name: 'Csárda Gulyás', price: 1100},
@@ -84,7 +90,7 @@ module.exports = {
                     reservation: {
                         reservedBy: savedGuest._id,
                         reservedSeats: 4,
-                        datetime: '2020-05-07T18:00:00'
+                        datetime: '2020-05-07T17:00:00'
                     }
                 },
                 {identifier: 'K2', seats: 6},
