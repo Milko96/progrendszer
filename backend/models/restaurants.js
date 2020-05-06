@@ -17,24 +17,21 @@ const restaurantSchema = new mongoose.Schema({
     tables: [{
         identifier: {type: String, unique: true, required: true},
         seats: {type: Number, required: true},
-        reservation: {
-            type: {
-                reservedBy: {type: mongoose.Schema.Types.ObjectId, ref: 'user'},
-                reservedSeats: {type: Number, required: false},
-                datetime: {type: Date, required: false},
-                orders: {
-                    foods: [{
-                        food: {type: mongoose.Schema.Types.ObjectId, ref: 'restaurant.menu.foods'},
-                        quantity: {type: Number, required: false}
-                    }],
-                    drinks: [{
-                        drink: {type: mongoose.Schema.Types.ObjectId, ref: 'restaurant.menu.drinks'},
-                        quantity: {type: Number, required: false}
-                    }]
-                }
-            },
-            required: false
-        }
+        reservations: [{
+            reservedBy: {type: mongoose.Schema.Types.ObjectId, ref: 'user'},
+            reservedSeats: {type: Number, required: false},
+            datetime: {type: Date, required: false},
+            orders: {
+                foods: [{
+                    food: {type: mongoose.Schema.Types.ObjectId, ref: 'restaurant.menu.foods'},
+                    quantity: {type: Number, required: false}
+                }],
+                drinks: [{
+                    drink: {type: mongoose.Schema.Types.ObjectId, ref: 'restaurant.menu.drinks'},
+                    quantity: {type: Number, required: false}
+                }]
+            }
+        }]
     }]
 }, {collection: 'restaurants'});
 

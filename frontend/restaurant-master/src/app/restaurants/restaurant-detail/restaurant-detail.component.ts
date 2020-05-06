@@ -72,18 +72,25 @@ export class RestaurantDetailComponent implements OnInit, OnDestroy {
 
     this.loading = true;
     this._restaurantService.reserveTable(this.restaurantId, this.buildReservationPostDto())
-        .subscribe(
-            data => {
-            },
-            error => {
-                this.loading = false;
-            });
+      .pipe(
+        untilDestroyed(this),
+        catchError(err => {
+          this.error = err;
+          this.loading = false;
+          this.submitted = false;
+          return of(null);
+        })
+      )
+      .subscribe(response => {
+        this.loading = false;
+              this.submitted = false;
+      });
   }
 
   buildReservationPostDto(): IReservationPost{
     return {
-      datetime: this.reservationForm.controls.username.value, // todo ez csak a jövőben lehet
-      reservedSeats: this.reservationForm.controls.password.value
+      datetime: this.reservationForm.controls.datetime.value, // todo ez csak a jövőben lehet
+      reservedSeats: this.reservationForm.controls.reservedSeats.value
     }
   }
 }

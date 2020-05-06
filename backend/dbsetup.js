@@ -87,11 +87,11 @@ module.exports = {
                 {
                     identifier: 'K1',
                     seats: 4,
-                    reservation: {
+                    reservations: [{
                         reservedBy: savedGuest._id,
                         reservedSeats: 4,
                         datetime: '2020-05-07T17:00:00'
-                    }
+                    }]
                 },
                 {identifier: 'K2', seats: 6},
                 {identifier: 'K3', seats: 8}

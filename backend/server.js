@@ -23,9 +23,14 @@ app.use(bodyParser.urlencoded({extended: true}));
 const auth = require('./auth');
 auth.setup(app);
 
-// http://localhost:3002/api/health-check
-
 const apiBaseUrl = '/api';
+
+app.use(function (req, res, next) {
+  /*if(req.path !== apiBaseUrl + '/login' && !req.isAuthenticated()){
+    return res.status(403).send('Ehhez be kell jelentkezni');
+  }*/
+  next()
+})
 
 app.use(apiBaseUrl, require('./controllers/auth.controller'));
 app.use(apiBaseUrl + '/restaurants', require('./controllers/restaurants.controller'));

@@ -1,6 +1,10 @@
+import { IReservationGet } from './reservation-get.interface';
+
 export interface IRestaurantGet {
     _id: string;
     name: string;
+    openingHour: number;
+    closingHour: number;
     menu: IRestaurantMenuGet;
     tables: IRestaurantTableGet[];
 }
@@ -20,4 +24,6 @@ export interface IRestaurantMenuItemGet {
 export interface IRestaurantTableGet {
     _id: string;
     identifier: string;
+    seats: number;
+    reservations: IReservationGet[];
 }

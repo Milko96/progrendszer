@@ -84,3 +84,7 @@ button {
 .invalid-feedback {
     color: red;
 }
+
+.reservationForm {
+    width: 100;
+}

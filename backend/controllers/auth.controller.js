@@ -19,11 +19,8 @@ router.route('/login').post((req, res) => {
 });
 
 router.route('/logout').post((req, res) => {
-    if(req.isAuthenticated()) {
-        req.logout();
-        return res.status(200).send("Kijelentkezés sikeres");
-    }
-    return res.status(403).send("Előbb jelentkezz be, mielőtt kijelentkezel!");
+    req.logout();
+    return res.status(200).send("Kijelentkezés sikeres");
 })
 
 module.exports = router;
