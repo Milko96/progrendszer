@@ -64,27 +64,3 @@ tr:last-child {
     font-size: 17px;
     border-bottom: 2px red solid;
 }
-
-input, label {
-    display: block;
-    margin: auto;
-    width: 60%;
-}
-
-button {
-    display: block;
-    text-align: center;
-    margin: auto;
-}
-
-.form-group {
-    margin-bottom: 10px;
-}
-
-.invalid-feedback {
-    color: red;
-}
-
-.reservationForm {
-    width: 100;
-}

@@ -1,12 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { untilDestroyed } from 'ngx-take-until-destroy';
 import { catchError } from 'rxjs/operators';
 import { RestaurantService } from '../services/restaurant.service';
 import { of } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
-import { IRestaurantGet, IRestaurantMenuItemGet } from '../models/restaurant-get.interface';
-import { IReservationPost } from '../models/reservation-post.interface';
+import { IRestaurantMenuItemGet, IRestaurantBasicGet } from '../models/restaurant-get-basic.interface';
 
 @Component({
   selector: 'app-restaurant-detail',
@@ -19,17 +17,13 @@ export class RestaurantDetailComponent implements OnInit, OnDestroy {
   
   public activeTab: string = 'foods';
   
-  restaurant: IRestaurantGet;
+  restaurant: IRestaurantBasicGet;
 
   menuDataSource: IRestaurantMenuItemGet[];
 
-  reservationForm: FormGroup;
-  loading = false;
-  submitted = false;
   error: any;
 
   constructor(
-    private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private _restaurantService: RestaurantService
   ) { }
@@ -37,7 +31,7 @@ export class RestaurantDetailComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.restaurantId = this.route.snapshot.paramMap.get('id');
 
-    this._restaurantService.getRestaurantById(this.restaurantId)
+    this._restaurantService.getRestaurantBasicById(this.restaurantId)
       .pipe(
         untilDestroyed(this),
         catchError(err => {
@@ -49,11 +43,6 @@ export class RestaurantDetailComponent implements OnInit, OnDestroy {
         this.restaurant = restaurant;
         this.menuDataSource = this.activeTab === 'foods' ? this.restaurant.menu.foods : this.restaurant.menu.drinks;
       });
-
-      this.reservationForm = this.formBuilder.group({
-        datetime: [Date, Validators.required],
-        reservedSeats: [Number, [Validators.required, Validators.min(1)]]
-      });
   }
 
   ngOnDestroy(): void {}
@@ -61,36 +50,5 @@ export class RestaurantDetailComponent implements OnInit, OnDestroy {
   changeActiveTab(activeTab: string){
     this.activeTab = activeTab;
     this.menuDataSource = this.activeTab === 'foods' ? this.restaurant.menu.foods : this.restaurant.menu.drinks;
-  }
-
-  onSubmit() { 
-    this.submitted = true;
-
-    if (this.reservationForm.invalid) {
-        return;
-    }
-
-    this.loading = true;
-    this._restaurantService.reserveTable(this.restaurantId, this.buildReservationPostDto())
-      .pipe(
-        untilDestroyed(this),
-        catchError(err => {
-          this.error = err;
-          this.loading = false;
-          this.submitted = false;
-          return of(null);
-        })
-      )
-      .subscribe(response => {
-        this.loading = false;
-              this.submitted = false;
-      });
-  }
-
-  buildReservationPostDto(): IReservationPost{
-    return {
-      datetime: this.reservationForm.controls.datetime.value, // todo ez csak a jövőben lehet
-      reservedSeats: this.reservationForm.controls.reservedSeats.value
-    }
   }
 }

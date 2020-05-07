@@ -10,6 +10,17 @@ router.route('/').get(async (req, res) => {
     });
 });
 
+router.route('/:id/basic').get(async (req, res) => {
+    const restaurant = await restaurantModel.findById(req.params.id);
+    return res.status(200).send({
+        _id: restaurant._id,
+        name: restaurant.name,
+        openingHour: restaurant.openingHour,
+        closingHour: restaurant.closingHour,
+        menu: restaurant.menu
+    });
+});
+
 router.route('/:id').get(async (req, res) => {
     // todo ez működik, csak ne az egész user-t küldjük le, és ez igaz lesz a login-ra is
     await restaurantModel.findById(req.params.id)
@@ -19,7 +30,19 @@ router.route('/:id').get(async (req, res) => {
     });
 });
 
-router.route('/:id/reservation').post(async (req, res) => {
+
+router.route('/:id/reservations').get(async (req, res) => {
+    if(req.user.role !== 'waiter') return res.status(403).send('A foglalásokhoz nincs hozzáférése');
+
+    const restaurant = await restaurantModel.findById(req.params.id, (err, restaurant) => {
+        if(err) return res.status(404).send('Az étterem nem található');
+        return restaurant;
+    });
+
+    return restaurant.tables;
+});
+
+router.route('/:id/reservations').post(async (req, res) => {
     const restaurant = await restaurantModel.findById(req.params.id, (err, restaurant) => {
         if(err) return res.status(404).send('Az étterem nem található');
         return restaurant;

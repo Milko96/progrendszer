@@ -1,6 +1,7 @@
 <div class="nav-bar" *ngIf="currentUser">
     <a class="nav-item" routerLink="/home" routerLinkActive="active">Kezdőlap</a>
     <a class="nav-item" routerLink="/restaurants" routerLinkActive="active" *ngIf="currentUser.role === 'guest'" >Éttermek</a>
+    <a class="nav-item" routerLink="/reservations" routerLinkActive="active" *ngIf="currentUser.role === 'waiter'" >Foglalások</a>
     <a class="nav-item logout" (click)="logout()">Kijelentkezés</a>
 </div>
 
