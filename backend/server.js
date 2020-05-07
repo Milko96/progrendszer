@@ -26,9 +26,9 @@ auth.setup(app);
 const apiBaseUrl = '/api';
 
 app.use(function (req, res, next) {
-  /*if(req.path !== apiBaseUrl + '/login' && !req.isAuthenticated()){
+  if(req.path !== apiBaseUrl + '/login' && !req.isAuthenticated()){
     return res.status(403).send('Ehhez be kell jelentkezni');
-  }*/
+  }
   next()
 })
 

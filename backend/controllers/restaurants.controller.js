@@ -33,36 +33,75 @@ router.route('/:id/reservation').post(async (req, res) => {
     if((datetime.getHours() + 3) > restaurant.closingHour)
         return res.status(400).send('Az zárási időpont előtt minimum 3 órával lehet csak asztalt foglalni');
 
-    var canReserve = false;
     const tablesBigEnough = restaurant.tables.filter(x => x.seats >= reservedSeats);
     if(!(Array.isArray(tablesBigEnough) && tablesBigEnough.length)){
         return res.status(400).send('Nincs ekkora asztal');
     }
 
-    // a megfelelő méretű asztalok közül minél kisebbet kell lefoglalni
-    for(let table of tablesBigEnough.sort((a,b) => a.seats - b.seats)){
+    var canReserve = false;
+    for(let table of tablesBigEnough){
+        if(canReserve){
+            break;
+        }
+
         const reservationsToday = table.reservations.filter(x => {
             return new Date(x.datetime.getTime()).setHours(0,0,0,0) === new Date().setHours(0,0,0,0)
         });
-        reservationsToday.sort((a,b) => a.datetime.getTime() - b.datetime.getTime());
 
-        if(Array.isArray(reservationsToday) && reservationsToday.length){
-            for(let i = 0; i < reservationsToday.length - 1; i++) {
-                var reservation = reservationsToday[i];
-                // todo 3 óra legyen minimum 2 foglalás közt, illetve férjen bele a nyitás és zárás közé a 3 óra
-                if(restaurant.openingHour <= reservation.getHours()){
+        // a validációhoz push-olom, de más a referencia, ezért nincs benne az étteremben
+        reservationsToday.push({
+            reservedBy: req.user._id,
+            reservedSeats: reservedSeats,
+            datetime: datetime
+        });
 
-                }
-            }
-        }else {
-            // nincs mára foglalás
+        console.log('reservationsToday', reservationsToday);
+        // nincs mára foglalás az újon kívül
+        if((Array.isArray(reservationsToday) && reservationsToday.length == 1)){
             canReserve = true;
+            table.reservations.push({
+                reservedBy: req.user._id,
+                reservedSeats: reservedSeats,
+                datetime: datetime
+            });
+            break;
+        }
+
+        reservationsToday.sort((a,b) => a.datetime.getTime() - b.datetime.getTime());
+        let areReservationsCompatible = true;
+        for(let i = 0; i < reservationsToday.length - 1; i++) {
+            var reservation = reservationsToday[i];
+            var nextReservation = reservationsToday[i + 1];
+
+            console.log('reservation', reservation);
+            console.log('nextReservation', nextReservation);
+            
+            var diffTime = Math.abs(reservation.datetime - nextReservation.datetime);
+            console.log('diffTime', diffTime);
+            var diffInHours = Math.ceil(diffTime / (1000 * 60 * 60))
+            console.log('diffInHours', diffInHours);
+            // ha a foglalások közt van olyan, ahol nincs legalább 3 óra különbség
+            if(diffInHours < 3) {
+                areReservationsCompatible = false;
+                break;
+            }
+        }
+
+        if(areReservationsCompatible){
+            canReserve = true;
+            table.reservations.push({
+                reservedBy: req.user._id,
+                reservedSeats: reservedSeats,
+                datetime: datetime
+            });
             break;
         }
     }
 
     if(canReserve){
-        // todo restaurantba rögzíteni
+        console.log('canReserve', canReserve);
+        restaurant.save();
+        return res.status(200).send('Sikeres foglalás');
     }else {
         return res.status(400).send('Sajnos nem találtunk megfelelő méretű szabad asztalt a kért időpontban');
     }

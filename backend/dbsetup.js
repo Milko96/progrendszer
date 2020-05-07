@@ -24,9 +24,9 @@ module.exports = {
         if(count !== 0) return;
 
         const guest = userModel({username: 'Teszt Vendég', password: 'guest', role: 'guest'});
-        guest.save();
+        await guest.save();
         const waiter = userModel({username: 'Teszt Pincér', password: 'waiter', role: 'waiter'});
-        waiter.save();
+        await waiter.save();
 
         const restaurantModel = mongoose.model('restaurant');
         const kapca = restaurantModel({
