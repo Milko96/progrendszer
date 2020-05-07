@@ -1,0 +1,27 @@
+.container {
+    margin-top: 10px;
+}
+
+.reservation-list {
+    float: left;
+    border: 1px solid black;
+    width: 40%;
+}
+
+.card {
+    display: block;
+    border: 1px solid black;
+    margin: 15px;
+    padding: 15px;
+    width: 80%;
+}
+
+.btn-delete {
+    float: right;
+}
+
+.reservation-detail {
+    float: right;
+    border: 1px solid black;
+    width: auto;
+}

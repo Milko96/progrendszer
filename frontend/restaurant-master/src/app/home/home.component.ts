@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { IUser } from '../interfaces/user.interface';
+import { IUser } from '../auth/models/user.interface';
 import { AuthService } from '../auth/auth.service';
 @Component({
   selector: 'app-home',

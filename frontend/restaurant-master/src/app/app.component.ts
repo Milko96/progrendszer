@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { AuthService } from './auth/auth.service';
-import { IUser } from './interfaces/user.interface';
+import { IUser } from './auth/models/user.interface';
 
 @Component({
   selector: 'app-root',

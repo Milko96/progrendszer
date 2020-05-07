@@ -9,7 +9,7 @@ router.route('/login').post((req, res) => {
             } else {
                 req.logIn(user, (error, usr) => {
                     if(error) return res.status(500).send('A login sikeres lenne, de serializálni nem tudtunk');
-                    return res.status(200).send({id: user._id, username: user.username, role: user.role});
+                    return res.status(200).send({id: user._id, username: user.username, role: user.role, waiterAt: user.waiterAt});
                 })
             }
         })(req, res);

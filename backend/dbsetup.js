@@ -25,8 +25,6 @@ module.exports = {
 
         const guest = userModel({username: 'Teszt Vendég', password: 'guest', role: 'guest'});
         await guest.save();
-        const waiter = userModel({username: 'Teszt Pincér', password: 'waiter', role: 'waiter'});
-        await waiter.save();
 
         const restaurantModel = mongoose.model('restaurant');
         const kapca = restaurantModel({
@@ -90,7 +88,7 @@ module.exports = {
                     reservations: [{
                         reservedBy: savedGuest._id,
                         reservedSeats: 4,
-                        datetime: '2020-05-07T17:00:00'
+                        datetime: '2020-05-07T15:00:00Z'
                     }]
                 },
                 {identifier: 'K2', seats: 6},
@@ -98,5 +96,9 @@ module.exports = {
             ]
         });
         await kiskakas.save();
+
+        const savedKiskakas = await restaurantModel.findOne({name: kiskakas.name}, (err, restaurant) => restaurant);
+        const waiter = userModel({username: 'Teszt Pincér', password: 'waiter', role: 'waiter', waiterAt: savedKiskakas._id});
+        await waiter.save();
     }
 };

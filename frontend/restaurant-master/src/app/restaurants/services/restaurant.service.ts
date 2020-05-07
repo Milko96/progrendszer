@@ -27,12 +27,8 @@ export class RestaurantService {
   public reserveTable(restaurantId: string, dto: IReservationPost): any {
     return this._http.post(`${environment.apiUrl}/restaurants/${restaurantId}/reservations`, dto);
   }
-  
-  public getReservations(restaurantId: string): any { // todo pincér
-    return this._http.get(`${environment.apiUrl}/restaurants/${restaurantId}/reservations`);
-  }
 
-  public deleteReservation(restaurantId: string, reservationId: string): any { // todo pincér
+  public deleteReservation(restaurantId: string, reservationId: string): any {
     return this._http.delete(`${environment.apiUrl}/restaurants/${restaurantId}/reservations/${reservationId}`);
   }
 }

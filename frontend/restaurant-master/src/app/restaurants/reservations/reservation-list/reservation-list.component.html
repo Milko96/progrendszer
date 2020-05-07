@@ -1,1 +1,21 @@
-<p>reservation-list works!</p>
+<div *ngIf="restaurant" class="container">
+    <div class="reservation-list">
+        <ng-container *ngFor="let reservation of reservations;">
+            <div class="card">
+                <div>
+                    <span>Asztal: {{reservation.tableIdentifier}}</span>
+                    <button class="btn-delete" (click)="deleteReservation(reservation._id)">Törlés</button>
+                </div>
+                <div>
+                    <span>Foglalta: {{reservation.reservedBy}}</span>
+                </div>
+                <div>
+                    <span>{{reservation.reservedSeats}} főre, {{reservation.datetime | date: 'yyyy. MM. dd. hh:mm'}}</span>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+    <div class="reservation-detail">
+
+    </div>
+  </div>

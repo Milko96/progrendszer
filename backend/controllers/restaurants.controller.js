@@ -11,7 +11,10 @@ router.route('/').get(async (req, res) => {
 });
 
 router.route('/:id/basic').get(async (req, res) => {
-    const restaurant = await restaurantModel.findById(req.params.id);
+    const restaurant = await restaurantModel.findById(req.params.id, (err, restaurant) => {
+        if(err) return res.status(404).send('Az étterem nem található');
+        return restaurant;
+    });
     return res.status(200).send({
         _id: restaurant._id,
         name: restaurant.name,
@@ -22,24 +25,14 @@ router.route('/:id/basic').get(async (req, res) => {
 });
 
 router.route('/:id').get(async (req, res) => {
+    if(req.user.role !== 'waiter') return res.status(403).send('A foglalásokhoz nincs hozzáférése');
     // todo ez működik, csak ne az egész user-t küldjük le, és ez igaz lesz a login-ra is
     await restaurantModel.findById(req.params.id)
         .populate('tables.reservations.reservedBy')
         .exec((err, restaurant) => {
+        if(err) return res.status(404).send('Az étterem nem található');
         return res.status(200).send(restaurant);
     });
-});
-
-
-router.route('/:id/reservations').get(async (req, res) => {
-    if(req.user.role !== 'waiter') return res.status(403).send('A foglalásokhoz nincs hozzáférése');
-
-    const restaurant = await restaurantModel.findById(req.params.id, (err, restaurant) => {
-        if(err) return res.status(404).send('Az étterem nem található');
-        return restaurant;
-    });
-
-    return restaurant.tables;
 });
 
 router.route('/:id/reservations').post(async (req, res) => {
@@ -128,6 +121,26 @@ router.route('/:id/reservations').post(async (req, res) => {
     }else {
         return res.status(400).send('Sajnos nem találtunk megfelelő méretű szabad asztalt a kért időpontban');
     }
+});
+
+
+router.route('/:id/reservations/:reservationId').delete(async (req, res) => {
+    if(req.user.role !== 'waiter') return res.status(403).send('A foglalásokhoz nincs hozzáférése');
+
+    const restaurant = await restaurantModel.findById(req.params.id, (err, restaurant) => {
+        if(err) return res.status(404).send('Az étterem nem található');
+        return restaurant;
+    });
+
+    const tableIndex = restaurant.tables.findIndex(table => table.reservations.some(reservation => reservation._id == req.params.reservationId));
+    console.log('tableIndex', tableIndex);
+    if(tableIndex === -1) return res.status(404).send('A foglalás nem található');
+
+    const reservationIndex = restaurant.tables[tableIndex].reservations.findIndex(reservation => reservation._id == req.params.reservationId);
+
+    restaurant.tables[tableIndex].reservations[reservationIndex].remove();
+    restaurant.save();
+    return res.status(200).send('Foglalás törölve');
 });
 
 module.exports = router;
