@@ -1,5 +1,19 @@
 const router = require('express').Router();
 const passport = require('passport');
+const mongoose = require('mongoose');
+const userModel = mongoose.model('user');
+
+router.route('/registrate').post((req, res) => {
+    if(req.body.username && req.body.password) {
+        const user = userModel({username: req.body.username, password: req.body.password, role: 'guest'});
+        user.save(error => {
+            if(error) return res.status(500).send(error);
+            return res.status(200).send("Regisztráció sikeres!");
+        })
+    } else {
+        return res.status(400).send('Hiányosak a regisztrálni kívánt user adatai');
+    }
+})
 
 router.route('/login').post((req, res) => {
     if(req.body.username && req.body.password) {

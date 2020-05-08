@@ -1,4 +1,4 @@
-.login {
+.registration {
     padding: 5px;
     margin: auto;
     width: 30%;
@@ -6,7 +6,7 @@
     color: #f2f2f2;
 }
 
-.loginForm {
+.registerForm {
     margin: auto;
     width: 100%;
 }

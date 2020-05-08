@@ -25,8 +25,9 @@ auth.setup(app);
 
 const apiBaseUrl = '/api';
 
+const unathorizedPaths = [apiBaseUrl + '/login', apiBaseUrl + '/registrate'];
 app.use(function (req, res, next) {
-  if(req.path !== apiBaseUrl + '/login' && !req.isAuthenticated()){
+  if(!unathorizedPaths.some(path => path === req.path) && !req.isAuthenticated()){
     return res.status(403).send('Ehhez be kell jelentkezni');
   }
   next()

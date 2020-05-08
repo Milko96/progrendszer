@@ -20,6 +20,10 @@ export class AuthService {
         return this.currentUserSubject.value;
     }
 
+    register(username, password){
+        return this.http.post<any>(`${environment.apiUrl}/registrate`, { username, password });
+    }
+
     login(username, password) {
         return this.http.post<any>(`${environment.apiUrl}/login`, { username, password })
             .pipe(map(user => {
@@ -30,7 +34,7 @@ export class AuthService {
     }
 
     logout() {
-        // todo cookie törlése
+        this.http.post<any>(`${environment.apiUrl}/logout`, {}); // todo ez nem akar meghívódni
         localStorage.removeItem('currentUser');
         this.currentUserSubject.next(null);
     }

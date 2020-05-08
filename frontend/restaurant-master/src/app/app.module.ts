@@ -13,6 +13,7 @@ import { CredentialsInterceptor } from './auth/credential-interceptor';
 import { ReservationCreateComponent } from './restaurants/reservations/reservation-create/reservation-create.component';
 import { ReservationListComponent } from './restaurants/reservations/reservation-list/reservation-list.component';
 import { ReservationDetailComponent } from './restaurants/reservations/reservation-detail/reservation-detail.component';
+import { RegistrationComponent } from './registration/registration.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { ReservationDetailComponent } from './restaurants/reservations/reservati
     RestaurantDetailComponent,
     ReservationCreateComponent,
     ReservationListComponent,
-    ReservationDetailComponent
+    ReservationDetailComponent,
+    RegistrationComponent
   ],
   imports: [
     BrowserModule,
