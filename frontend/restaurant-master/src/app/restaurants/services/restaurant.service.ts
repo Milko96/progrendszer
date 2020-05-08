@@ -7,6 +7,7 @@ import { IRestaurantList } from '../models/restaurant-list.interface';
 import { IRestaurantBasicGet } from '../models/restaurant-get-basic.interface';
 import { IReservationPost } from '../models/reservation-post.interface';
 import { IRestaurantGet } from '../models/restaurant-get.interface';
+import { IOrderPost } from '../models/order-post.interface';
 
 @Injectable()
 export class RestaurantService {
@@ -26,6 +27,14 @@ export class RestaurantService {
   
   public reserveTable(restaurantId: string, dto: IReservationPost): any {
     return this._http.post(`${environment.apiUrl}/restaurants/${restaurantId}/reservations`, dto);
+  }
+
+  public orderFoodToReservation(restaurantId: string, reservationId: string, dto: IOrderPost): any {
+    return this._http.patch(`${environment.apiUrl}/restaurants/${restaurantId}/reservations/${reservationId}/order-food`, dto);
+  }
+  
+  public orderDrinkToReservation(restaurantId: string, reservationId: string, dto: IOrderPost): any {
+    return this._http.patch(`${environment.apiUrl}/restaurants/${restaurantId}/reservations/${reservationId}/order-drink`, dto);
   }
 
   public deleteReservation(restaurantId: string, reservationId: string): any {

@@ -15,6 +15,7 @@ router.route('/:id/basic').get(async (req, res) => {
         if(err) return res.status(404).send('Az étterem nem található');
         return restaurant;
     });
+
     return res.status(200).send({
         _id: restaurant._id,
         name: restaurant.name,
@@ -26,13 +27,12 @@ router.route('/:id/basic').get(async (req, res) => {
 
 router.route('/:id').get(async (req, res) => {
     if(req.user.role !== 'waiter') return res.status(403).send('A foglalásokhoz nincs hozzáférése');
-    // todo ez működik, csak ne az egész user-t küldjük le, és ez igaz lesz a login-ra is
     await restaurantModel.findById(req.params.id)
-        .populate('tables.reservations.reservedBy')
+        .populate('tables.reservations.reservedBy', 'username')
         .exec((err, restaurant) => {
-        if(err) return res.status(404).send('Az étterem nem található');
-        return res.status(200).send(restaurant);
-    });
+            if(err) return res.status(404).send('Az étterem nem található');
+            return res.status(200).send(restaurant);
+        });
 });
 
 router.route('/:id/reservations').post(async (req, res) => {
@@ -71,7 +71,6 @@ router.route('/:id/reservations').post(async (req, res) => {
             datetime: datetime
         });
 
-        console.log('reservationsToday', reservationsToday);
         // nincs mára foglalás az újon kívül
         if((Array.isArray(reservationsToday) && reservationsToday.length == 1)){
             canReserve = true;
@@ -88,14 +87,9 @@ router.route('/:id/reservations').post(async (req, res) => {
         for(let i = 0; i < reservationsToday.length - 1; i++) {
             var reservation = reservationsToday[i];
             var nextReservation = reservationsToday[i + 1];
-
-            console.log('reservation', reservation);
-            console.log('nextReservation', nextReservation);
             
             var diffTime = Math.abs(reservation.datetime - nextReservation.datetime);
-            console.log('diffTime', diffTime);
             var diffInHours = Math.ceil(diffTime / (1000 * 60 * 60))
-            console.log('diffInHours', diffInHours);
             // ha a foglalások közt van olyan, ahol nincs legalább 3 óra különbség
             if(diffInHours < 3) {
                 areReservationsCompatible = false;
@@ -115,7 +109,6 @@ router.route('/:id/reservations').post(async (req, res) => {
     }
 
     if(canReserve){
-        console.log('canReserve', canReserve);
         restaurant.save();
         return res.status(200).send('Sikeres foglalás');
     }else {
@@ -133,7 +126,6 @@ router.route('/:id/reservations/:reservationId').delete(async (req, res) => {
     });
 
     const tableIndex = restaurant.tables.findIndex(table => table.reservations.some(reservation => reservation._id == req.params.reservationId));
-    console.log('tableIndex', tableIndex);
     if(tableIndex === -1) return res.status(404).send('A foglalás nem található');
 
     const reservationIndex = restaurant.tables[tableIndex].reservations.findIndex(reservation => reservation._id == req.params.reservationId);
@@ -141,6 +133,56 @@ router.route('/:id/reservations/:reservationId').delete(async (req, res) => {
     restaurant.tables[tableIndex].reservations[reservationIndex].remove();
     restaurant.save();
     return res.status(200).send('Foglalás törölve');
+});
+
+router.route('/:id/reservations/:reservationId/order-food').patch(async (req, res) => {
+    if(req.user.role !== 'waiter') return res.status(403).send('A foglalásokhoz nincs hozzáférése');
+
+    const restaurant = await restaurantModel.findById(req.params.id, (err, restaurant) => {
+        if(err) return res.status(404).send('Az étterem nem található');
+        return restaurant;
+    });
+
+    const tableIndex = restaurant.tables.findIndex(table => table.reservations.some(reservation => reservation._id == req.params.reservationId));
+    if(tableIndex === -1) return res.status(404).send('A foglalás nem található');
+
+    const reservation = restaurant.tables[tableIndex].reservations.find(reservation => reservation._id == req.params.reservationId);
+
+    const foodIndex = reservation.orders.foods.findIndex(food => food.foodId == req.body._id);
+    if(foodIndex === -1){
+        reservation.orders.foods.push({foodId: req.body._id, quantity: req.body.quantity});
+    }else{
+        reservation.orders.foods[foodIndex].quantity += req.body.quantity;
+    }
+
+    restaurant.save();
+
+    return res.status(200).send('Rendelés rögzítve');
+});
+
+router.route('/:id/reservations/:reservationId/order-drink').patch(async (req, res) => {
+    if(req.user.role !== 'waiter') return res.status(403).send('A foglalásokhoz nincs hozzáférése');
+
+    const restaurant = await restaurantModel.findById(req.params.id, (err, restaurant) => {
+        if(err) return res.status(404).send('Az étterem nem található');
+        return restaurant;
+    });
+
+    const tableIndex = restaurant.tables.findIndex(table => table.reservations.some(reservation => reservation._id == req.params.reservationId));
+    if(tableIndex === -1) return res.status(404).send('A foglalás nem található');
+
+    const reservation = restaurant.tables[tableIndex].reservations.find(reservation => reservation._id == req.params.reservationId);
+
+    const drinkIndex = reservation.orders.drinks.findIndex(drink => drink.drinkId == req.body._id);
+    if(drinkIndex === -1){
+        reservation.orders.drinks.push({drinkId: req.body._id, quantity: req.body.quantity});
+    }else{
+        reservation.orders.drinks[drinkIndex].quantity += req.body.quantity;
+    }
+
+    restaurant.save();
+
+    return res.status(200).send('Rendelés rögzítve');
 });
 
 module.exports = router;

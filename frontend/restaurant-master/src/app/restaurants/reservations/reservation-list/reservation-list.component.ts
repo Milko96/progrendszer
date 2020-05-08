@@ -6,6 +6,7 @@ import { untilDestroyed } from 'ngx-take-until-destroy';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { IReservationList } from '../../models/reservation-list.interface';
+import { IReservationGet } from '../../models/reservation-get.interface';
 
 @Component({
   selector: 'app-reservation-list',
@@ -20,6 +21,8 @@ export class ReservationListComponent implements OnInit, OnDestroy {
   restaurant: IRestaurantGet;
 
   reservations: IReservationList[] = [];
+
+  selectedReservation?: IReservationGet;
 
   error: any;
 
@@ -71,5 +74,11 @@ export class ReservationListComponent implements OnInit, OnDestroy {
     .subscribe(response => {
 
     });
+  }
+
+  selectReservation(tableIdentifier: string, reservationId: string){
+    this.selectedReservation = this.restaurant.tables
+      .find(table => table.identifier === tableIdentifier).reservations
+      .find(reservation => reservation._id === reservationId);
   }
 }

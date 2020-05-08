@@ -1,6 +1,8 @@
+import { IUserBasic } from 'src/app/auth/models/user-basic.interface';
+
 export interface IReservationGet {
     _id: string;
-    reservedBy: string; // user_id, de jó lenne konkrét user
+    reservedBy: IUserBasic;
     reservedSeats: number;
     datetime: Date;
     orders: IReservationOrderGet;
@@ -12,11 +14,11 @@ export interface IReservationOrderGet {
 }
 
 export interface IReservationOrderFoodGet {
-    food: string;
+    foodId: string;
     quantity: number;
 }
 
 export interface IReservationOrderDrinkGet {
-    drink: string;
+    drinkId: string;
     quantity: number;
 }

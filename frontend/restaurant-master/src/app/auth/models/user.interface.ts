@@ -1,6 +1,6 @@
-export interface IUser {
-    _id: string;
-    username: string;
+import { IUserBasic } from './user-basic.interface';
+
+export interface IUser extends IUserBasic {
     role: string;
     waiterAt?: string;
 }

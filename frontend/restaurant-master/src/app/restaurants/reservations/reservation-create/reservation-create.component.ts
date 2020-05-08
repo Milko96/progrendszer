@@ -5,6 +5,7 @@ import { untilDestroyed } from 'ngx-take-until-destroy';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { IReservationPost } from '../../models/reservation-post.interface';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-reservation-create',
@@ -21,11 +22,14 @@ export class ReservationCreateComponent implements OnInit, OnDestroy {
   error: any;
 
   constructor(
+    private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private _restaurantService: RestaurantService
   ) { }
 
   ngOnInit(): void {
+    this.restaurantId = this.route.snapshot.paramMap.get('id');
+
     this.reservationForm = this.formBuilder.group({
       datetime: [Date, Validators.required],
       reservedSeats: [Number, [Validators.required, Validators.min(1)]]

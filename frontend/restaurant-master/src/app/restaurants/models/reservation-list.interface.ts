@@ -1,7 +1,9 @@
+import { IUserBasic } from 'src/app/auth/models/user-basic.interface';
+
 export interface IReservationList {
     _id: string;
     tableIdentifier: string;
-    reservedBy: string; // user_id, de jó lenne konkrét user
+    reservedBy: IUserBasic;
     reservedSeats: number;
     datetime: Date;
 }

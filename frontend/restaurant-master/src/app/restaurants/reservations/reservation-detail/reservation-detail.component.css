@@ -1,0 +1,11 @@
+.add-order {
+    float: left;
+}
+
+.orders {
+    float: right;
+}
+
+.form-row {
+    display: inline;
+}

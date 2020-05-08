@@ -2,12 +2,13 @@
     <div class="reservation-list">
         <ng-container *ngFor="let reservation of reservations;">
             <div class="card">
-                <div>
+                <div class="top-row">
                     <span>Asztal: {{reservation.tableIdentifier}}</span>
                     <button class="btn-delete" (click)="deleteReservation(reservation._id)">Törlés</button>
                 </div>
-                <div>
-                    <span>Foglalta: {{reservation.reservedBy}}</span>
+                <div class="mid-row">
+                    <span>Foglalta: {{reservation.reservedBy.username}}</span>
+                    <button class="btn-order" (click)="selectReservation(reservation.tableIdentifier, reservation._id)">Rendelés hozzáadása</button>
                 </div>
                 <div>
                     <span>{{reservation.reservedSeats}} főre, {{reservation.datetime | date: 'yyyy. MM. dd. hh:mm'}}</span>
@@ -15,7 +16,11 @@
             </div>
         </ng-container>
     </div>
-    <div class="reservation-detail">
-
+    <div class="reservation-detail" *ngIf="selectedReservation">
+        <app-reservation-detail
+            [restaurantId]="restaurantId"
+            [selectedReservation]="selectedReservation"
+            [menu]="restaurant.menu"
+        ></app-reservation-detail>
     </div>
-  </div>
+</div>

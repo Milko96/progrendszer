@@ -23,11 +23,11 @@ const restaurantSchema = new mongoose.Schema({
             datetime: {type: Date, required: false},
             orders: {
                 foods: [{
-                    food: {type: mongoose.Schema.Types.ObjectId, ref: 'restaurant.menu.foods'},
+                    foodId: {type: mongoose.Schema.Types.ObjectId, ref: 'restaurant.menu.foods'},
                     quantity: {type: Number, required: false}
                 }],
                 drinks: [{
-                    drink: {type: mongoose.Schema.Types.ObjectId, ref: 'restaurant.menu.drinks'},
+                    drinkId: {type: mongoose.Schema.Types.ObjectId, ref: 'restaurant.menu.drinks'},
                     quantity: {type: Number, required: false}
                 }]
             }

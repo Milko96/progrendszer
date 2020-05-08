@@ -16,12 +16,16 @@
     width: 80%;
 }
 
-.btn-delete {
+.btn-delete, .btn-order {
     float: right;
 }
 
 .reservation-detail {
     float: right;
     border: 1px solid black;
-    width: auto;
+    width: 50%;
+}
+
+.top-row, .mid-row {
+    display: block;
 }
