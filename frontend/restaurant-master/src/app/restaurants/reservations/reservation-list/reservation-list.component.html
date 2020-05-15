@@ -11,7 +11,7 @@
                     <button class="btn-order" (click)="selectReservation(reservation.tableIdentifier, reservation._id)">Rendelés hozzáadása</button>
                 </div>
                 <div>
-                    <span>{{reservation.reservedSeats}} főre, {{reservation.datetime | date: 'yyyy. MM. dd. hh:mm'}}</span>
+                    <span>{{reservation.reservedSeats}} főre, {{reservation.datetime | dateTimeFormat}}</span>
                 </div>
             </div>
         </ng-container>

@@ -1,5 +1,5 @@
 <div class="container">
-  <div>{{selectedReservation.datetime}}</div>
+  <div>{{selectedReservation.datetime | dateTimeFormat}}</div>
   <div class="add-order">
     <div class="add-food">
       <form class="orderFoodForm" [formGroup]="orderFoodForm" (ngSubmit)="onSubmitFoodForm()">
@@ -18,23 +18,24 @@
         </div>
       </form>
     </div>
-      <div class="add-drink">
-        <form class="orderDrinkForm" [formGroup]="orderDrinkForm" (ngSubmit)="onSubmitDrinkForm()">
-          <div class="form-group">
-            <label for="drinkSelector">Italok</label>
-            <select [(ngModel)]="selectedDrink" formControlName="drinkSelector" class="form-control" >
-              <option *ngFor="let drink of menu.drinks" [value]="drink._id">{{drink.name}}</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="quantity">Mennyiség</label>
-            <input type="number" formControlName="quantity" class="form-control"/>
-          </div>
-          <div class="form-group">
-            <button class="btn btn-primary">Rendelés</button>
-          </div>
-        </form>
-      </div>
+    <hr>
+    <div class="add-drink">
+      <form class="orderDrinkForm" [formGroup]="orderDrinkForm" (ngSubmit)="onSubmitDrinkForm()">
+        <div class="form-group">
+          <label for="drinkSelector">Italok</label>
+          <select [(ngModel)]="selectedDrink" formControlName="drinkSelector" class="form-control" >
+            <option *ngFor="let drink of menu.drinks" [value]="drink._id">{{drink.name}}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="quantity">Mennyiség</label>
+          <input type="number" formControlName="quantity" class="form-control"/>
+        </div>
+        <div class="form-group">
+          <button class="btn btn-primary">Rendelés</button>
+        </div>
+      </form>
+    </div>
   </div>
   <div class="orders">
     <table>

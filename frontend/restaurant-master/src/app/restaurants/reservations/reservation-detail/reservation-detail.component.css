@@ -1,3 +1,7 @@
+.container {
+    padding: 5px;
+}
+
 .add-order {
     float: left;
 }
@@ -8,4 +12,12 @@
 
 .form-row {
     display: inline;
+}
+
+label {
+    margin-right: 5px;
+}
+
+.form-group {
+    margin-bottom: 5px;
 }

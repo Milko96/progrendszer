@@ -14,6 +14,7 @@ import { ReservationCreateComponent } from './restaurants/reservations/reservati
 import { ReservationListComponent } from './restaurants/reservations/reservation-list/reservation-list.component';
 import { ReservationDetailComponent } from './restaurants/reservations/reservation-detail/reservation-detail.component';
 import { RegistrationComponent } from './registration/registration.component';
+import { DateTimeFormatPipe } from './date-time.pipe';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { RegistrationComponent } from './registration/registration.component';
     ReservationCreateComponent,
     ReservationListComponent,
     ReservationDetailComponent,
-    RegistrationComponent
+    RegistrationComponent,
+    DateTimeFormatPipe
   ],
   imports: [
     BrowserModule,

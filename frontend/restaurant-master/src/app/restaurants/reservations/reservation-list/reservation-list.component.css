@@ -28,4 +28,5 @@
 
 .top-row, .mid-row {
     display: block;
+    margin-bottom: 5px;
 }

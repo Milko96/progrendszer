@@ -1,11 +1,11 @@
 .nav-bar {
-    background-color: teal;
+    background-color: #7c00b5;
     overflow: hidden;
 }
 
 .nav-item {
     float: left;
-    color: #f2f2f2;
+    color: #fffb00;
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;

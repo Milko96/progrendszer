@@ -34,30 +34,7 @@ export class ReservationListComponent implements OnInit, OnDestroy {
     this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
     this.restaurantId = this.currentUser.waiterAt;
 
-    this._restaurantService.getRestaurantById(this.restaurantId)
-      .pipe(
-        untilDestroyed(this),
-        catchError(err => {
-          this.error = err;
-          return of(null);
-        })
-      )
-      .subscribe(restaurant => {
-        this.restaurant = restaurant;
-
-        this.restaurant.tables.forEach(table => {
-          table.reservations.forEach(reservation => {
-            var convertedDate = new Date(reservation.datetime);
-            this.reservations.push({
-              _id: reservation._id,
-              tableIdentifier: table.identifier,
-              reservedBy: reservation.reservedBy,
-              reservedSeats: reservation.reservedSeats,
-              datetime: new Date(convertedDate.getTime() + (convertedDate.getTimezoneOffset()*60*1000))
-            });
-          });
-        });
-      });
+    this.getRestaurant();
   }
 
   ngOnDestroy(): void {}
@@ -80,5 +57,33 @@ export class ReservationListComponent implements OnInit, OnDestroy {
     this.selectedReservation = this.restaurant.tables
       .find(table => table.identifier === tableIdentifier).reservations
       .find(reservation => reservation._id === reservationId);
+  }
+
+  getRestaurant() {
+    this._restaurantService.getRestaurantById(this.restaurantId)
+    .pipe(
+      untilDestroyed(this),
+      catchError(err => {
+        this.error = err;
+        return of(null);
+      })
+    )
+    .subscribe(restaurant => {
+      this.reservations = [];
+      this.restaurant = restaurant;
+
+      this.restaurant.tables.forEach(table => {
+        table.reservations.forEach(reservation => {
+          var convertedDate = new Date(reservation.datetime);
+          this.reservations.push({
+            _id: reservation._id,
+            tableIdentifier: table.identifier,
+            reservedBy: reservation.reservedBy,
+            reservedSeats: reservation.reservedSeats,
+            datetime: new Date(convertedDate.getTime())
+          });
+        });
+      });
+    });
   }
 }
